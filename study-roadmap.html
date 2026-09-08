@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Study Roadmap</title>
+<style>
+:root{--ink:#123568;--line:#183b6b;--muted:#60789a;--paper:#fffdf7;--teal:#72d6c8;--blue:#347db5;--pink:#f6c4d8;--yellow:#ffe8ae;--green:#cce9cf;--lav:#d9d5f5;--sky:#cce8f7;--orange:#ffd6b5}
+*{box-sizing:border-box}body{margin:0;background:#f7f1df;color:var(--ink);font-family:"Trebuchet MS",Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:1550px;margin:auto;padding:16px}
+.top{background:var(--teal);border:4px solid var(--line);border-radius:24px 24px 10px 10px;padding:17px 21px;box-shadow:6px 7px 0 rgba(18,53,104,.12)}.top h1{margin:0;font-size:clamp(25px,4vw,42px);letter-spacing:1px}.top p{margin:5px 0 0;font-size:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.tab,.action{border:3px solid var(--line);background:#fff;border-radius:14px;padding:9px 14px;color:var(--ink);box-shadow:3px 3px 0 rgba(18,53,104,.13)}.tab.active,.action.primary{background:var(--blue);color:#fff}.panel{display:none}.panel.active{display:block}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 14px}.grow{flex:1}.note{color:var(--muted);font-size:13px}
+.board{background:var(--paper);border:4px solid var(--line);border-radius:20px;overflow:auto;box-shadow:7px 8px 0 rgba(18,53,104,.12)}table{border-collapse:separate;border-spacing:0;width:100%;min-width:1200px}th,td{border-right:2px solid var(--line);border-bottom:2px solid #b9cee1;text-align:center}th:last-child,td:last-child{border-right:0}tr:last-child td{border-bottom:0}
+th{height:78px;padding:7px;font-size:16px;background:#fff}.timeHead{min-width:126px;width:126px;background:var(--teal)!important}.dayHead{font-size:17px}.dateHead{display:block;margin:6px auto 0;width:max-content;max-width:100%;padding:5px 8px;background:#fffdf7;border:2px solid var(--line);border-radius:9px;box-shadow:2px 2px 0 rgba(18,53,104,.1);font-size:11px;color:var(--ink);font-weight:bold}
+td.timeCell{width:112px;min-width:112px;background:#fff;padding:5px 6px;vertical-align:middle}.timeEditor{display:flex;align-items:center;justify-content:center}.timeEditor input{width:98px;min-height:46px;padding:6px 8px;border:2px solid #9eb8cf;border-radius:10px;background:#fffdf7;color:var(--ink);font-weight:800;font-size:18px;line-height:1;text-align:center;letter-spacing:.2px;cursor:pointer}.timeEditor input:focus{outline:3px dashed var(--blue);outline-offset:1px}.timeEditor input:not([readonly])::-webkit-calendar-picker-indicator{opacity:0;cursor:pointer;width:100%;height:100%;position:absolute;right:0;top:0}.timeEditor input:not([readonly]){position:relative}.timeEditor input[readonly]{background:#eef8f6;cursor:default}.timeHint{display:block;font-size:9px;color:var(--muted);margin-top:3px}
+td.slot{height:82px;padding:5px;vertical-align:middle;position:relative;min-width:150px}.slot[data-color="teal"]{background:var(--teal)}.slot[data-color="blue"]{background:#cfe4f7}.slot[data-color="pink"]{background:var(--pink)}.slot[data-color="yellow"]{background:var(--yellow)}.slot[data-color="green"]{background:var(--green)}.slot[data-color="lav"]{background:var(--lav)}.slot[data-color="sky"]{background:var(--sky)}.slot[data-color="orange"]{background:var(--orange)}
+.task{min-height:65px;display:flex;align-items:center;justify-content:center;position:relative;padding:6px 8px;cursor:pointer}.taskText{width:100%;font-weight:bold;line-height:1.25;text-align:center;padding:7px;border-radius:7px}.taskText:focus{outline:2px dashed var(--blue);background:rgba(255,255,255,.55)}.task.done .taskText{text-decoration:line-through;opacity:.52}.addCell{border:2px dashed #8ba8c1;background:rgba(255,255,255,.35);border-radius:8px;padding:7px;color:var(--muted);font-weight:bold}
+.months{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}.month{background:var(--paper);border:3px solid var(--line);border-radius:18px;padding:14px;box-shadow:4px 5px 0 rgba(18,53,104,.1)}.monthTitle{width:100%;font-size:21px;font-weight:bold;border:0;border-bottom:2px solid #9eb8cf;background:transparent;color:var(--ink);padding:5px}.monthDate{font-size:12px;color:var(--muted);margin:8px 0}.month textarea{width:100%;min-height:155px;resize:vertical;border:2px solid #9eb8cf;border-radius:10px;padding:9px;color:var(--ink);background:#fff}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;background:var(--paper);border:3px solid var(--line);padding:10px;border-radius:18px}.calHead{text-align:center;font-weight:bold;padding:8px;background:var(--teal);border:2px solid var(--line);border-radius:8px}.calDay{min-height:105px;background:#fff;border:2px solid #b9cee1;border-radius:8px;padding:7px;cursor:pointer}.calDay:hover{background:#eef8fb}.calDay.today{outline:4px solid var(--blue);outline-offset:-4px}.calDay.selected{box-shadow:inset 0 0 0 3px #f0a44c}.calDay .num{font-weight:bold}.calDay small{display:block;margin-top:7px;color:var(--muted);line-height:1.25}
+.progressWrap{background:var(--paper);border:3px solid var(--line);border-radius:18px;padding:18px;box-shadow:4px 5px 0 rgba(18,53,104,.1)}.bar{height:25px;background:#e4e9ee;border:2px solid var(--line);border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--teal);width:0%;transition:.25s}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.stat{background:#fff;border:2px solid #a9bfd4;border-radius:13px;padding:12px;text-align:center}.stat b{display:block;font-size:25px}.subjects{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:15px}.subject{border:2px solid #a9bfd4;border-radius:13px;padding:10px;background:#fff}.mini{height:10px;background:#e4e9ee;border-radius:20px;margin-top:8px;overflow:hidden}.mini i{display:block;height:100%;background:var(--blue)}
+.modalBack{position:fixed;inset:0;background:rgba(18,53,104,.42);display:none;align-items:center;justify-content:center;padding:15px;z-index:10}.modalBack.show{display:flex}.modal{background:var(--paper);border:4px solid var(--line);border-radius:20px;padding:18px;width:min(580px,100%);box-shadow:8px 8px 0 rgba(18,53,104,.2)}.modal h2{margin-top:0}.form{display:grid;gap:10px}.form label{font-weight:bold}.form input,.form select{width:100%;padding:9px;border:2px solid #9eb8cf;border-radius:10px;background:#fff;color:var(--ink)}.modalBtns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}.hidden{display:none!important}.toast{position:fixed;right:18px;bottom:18px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;display:none;z-index:20}
+@media(max-width:700px){.app{padding:9px}.stats{grid-template-columns:repeat(2,1fr)}.calendar{grid-template-columns:repeat(2,1fr)}.calHead:nth-child(n+3){display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><h1 id="siteTitle" contenteditable="true">MY STUDY ROADMAP</h1><p id="siteSubtitle" contenteditable="true">Plan your day • track completion • manage your months • monitor your progress</p></header>
+<nav class="tabs"><button class="tab active" data-tab="week">📅 Weekly Timetable</button><button class="tab" data-tab="months">🗓️ Monthly Roadmap</button><button class="tab" data-tab="calendar">📆 Real Calendar</button><button class="tab" data-tab="progress">📊 Progress</button><button class="tab" data-tab="backup">💾 Manage Data</button></nav>
+<section id="week" class="panel active">
+<div class="toolbar"><button class="action" id="prevWeek">← Previous Week</button><button class="action primary" id="todayWeek">Current Week</button><button class="action" id="nextWeek">Next Week →</button><input id="weekPicker" type="date" title="Choose any week"><button class="action primary" id="addBtn">＋ Add Time Block</button><button class="action" id="deleteTimeBtn">🗑 Delete Time Block</button><button class="action" id="resetBtn">↺ Reset Weekly Format</button><span class="grow"></span><span class="note">Same weekly task format is used for every week • edit time directly • double-click tasks to check / uncheck</span></div>
+<div class="board"><table id="timetable"></table></div>
+</section>
+<section id="months" class="panel"><div class="toolbar"><button class="action primary" id="addMonth">＋ Add Month</button><span class="note">Real month names are generated automatically and every month is editable.</span></div><div class="months" id="monthGrid"></div></section>
+<section id="calendar" class="panel"><div class="toolbar"><button class="action" id="prevMonth">← Previous</button><button class="action primary" id="todayCal">Today</button><button class="action" id="nextMonth">Next →</button><span class="grow"></span><h2 id="calTitle" style="margin:0"></h2></div><div class="calendar" id="calendarGrid"></div><p class="note">Click any date to open that date's week. The blue outline marks the actual current date.</p></section>
+<section id="progress" class="panel"><div class="progressWrap"><h2>Overall Progress</h2><div class="bar"><div class="fill" id="overallFill"></div></div><div class="stats"><div class="stat"><b id="totalTasks">0</b>Total tasks</div><div class="stat"><b id="doneTasks">0</b>Completed</div><div class="stat"><b id="remainingTasks">0</b>Remaining</div><div class="stat"><b id="percent">0%</b>Progress</div></div><h3>Activity / Subject Progress</h3><div class="subjects" id="subjects"></div></div></section>
+<section id="backup" class="panel"><div class="progressWrap"><h2>Manage Your Roadmap</h2><p>Changes are saved automatically in this browser. Export a backup before moving to another device.</p><div class="toolbar"><button class="action primary" id="exportBtn">⬇ Export JSON</button><button class="action" id="importBtn">⬆ Import JSON</button><button class="action" id="clearBtn">🗑 Clear Everything</button></div><input id="fileInput" type="file" accept=".json,application/json" class="hidden"><p class="note">Static HTML: works locally and on GitHub Pages. Browser storage keeps your edits after refresh/revisit on the same browser/device.</p></div></section>
+</div>
+<div class="modalBack" id="modalBack"><div class="modal"><h2 id="modalTitle">Add Time Block</h2><form class="form" id="blockForm"><label>Date <input id="fDate" type="date" required></label><label>Start time <input id="fStart" type="time" required></label><label>End time <input id="fEnd" type="time" required></label><label>Activity / text <input id="fText" type="text" required></label><label>Colour <select id="fColor"><option value="teal">Teal</option><option value="blue">Blue</option><option value="pink">Pink</option><option value="yellow">Yellow</option><option value="green">Green</option><option value="lav">Lavender</option><option value="sky">Sky</option><option value="orange">Peach</option></select></label><div class="modalBtns"><button type="button" class="action" id="cancelModal">Cancel</button><button type="button" class="action hidden" id="deleteBlock">Delete</button><button class="action primary">Save</button></div></form></div></div>
+<div class="modalBack" id="timeBlockBack"><div class="modal"><h2>Add Time Block</h2><form class="form" id="timeBlockForm"><label>Split this interval <select id="splitSlot"></select></label><label>New time <input id="splitTime" type="time" required></label><p class="note" id="splitHint">The new time becomes the start of the new block. The timetable remains continuous from 6:00 AM to 2:00 AM.</p><div class="modalBtns"><button type="button" class="action" id="cancelTimeBlock">Cancel</button><button class="action primary">Add Time Block</button></div></form></div></div>
+<div class="modalBack" id="deleteTimeBack"><div class="modal"><h2>Delete Time Block</h2><form class="form" id="deleteTimeForm"><label>Choose the block to delete <select id="deleteSlot"></select></label><p class="note">Deleting a block joins the time before it and the time after it. Its task is removed from the shared weekly format.</p><div class="modalBtns"><button type="button" class="action" id="cancelDeleteTime">Cancel</button><button class="action primary" id="confirmDeleteTime">Delete Time Block</button></div></form></div></div>
+<div class="toast" id="toast">Saved ✓</div>
+<script>
+"use strict";
+const KEY="studyRoadmap_v5";
+const COLORS=["teal","blue","pink","yellow","green","lav","sky","orange"];
+const DAYNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const WEEKDAYS=["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"];
+const DEFAULT_SLOTS=[
+ ["06:00","07:00"],["07:00","09:00"],["09:00","12:00"],["12:00","14:00"],["14:00","16:00"],["16:00","18:00"],["18:00","20:00"],["20:00","22:00"],["22:00","00:00"],["00:00","02:00"]
+];
+const DEFAULT_TASKS=[
+ ["Morning Routine","yellow"],["Engineering Math","blue"],["Digital Logic","orange"],["DSA Practice","lav"],["Lunch + Break","green"],["Self Study / Previous Year Questions","sky"],["Subject Revision","pink"],["Practice Problems","lav"],["Reading / Notes","sky"],["Sleep","blue"]
+];
+function pad(n){return String(n).padStart(2,"0")}
+function iso(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function fromISO(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)}
+function monday(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());const day=x.getDay();x.setDate(x.getDate()-(day===0?6:day-1));return x}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function mins(t){const [h,m]=t.split(":").map(Number);return h*60+m}
+function fmt(t){const [h,m]=t.split(":").map(Number);const ap=h>=12?"PM":"AM";const hh=h%12||12;return `${pad(hh)}:${pad(m)} ${ap}`}
+function uid(){return (crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now()+"-"+Math.random()}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+const today=new Date();
+const initialMonday=monday(today);
+function realMonths(){const arr=[];const base=new Date(today.getFullYear(),today.getMonth(),1);for(let i=0;i<6;i++){const d=new Date(base.getFullYear(),base.getMonth()+i,1);arr.push({id:uid(),name:d.toLocaleString("en-US",{month:"long",year:"numeric"}),notes:"Goals:\n\nTopics:\n\nMilestones:\n"});}return arr}
+function freshTemplate(){return {slots:DEFAULT_SLOTS.map((x,i)=>({start:x[0],end:x[1]})),days:Object.fromEntries(WEEKDAYS.map((day,di)=>[day,DEFAULT_TASKS.map((x,si)=>({text:defaultText(day,di,si),color:x[1]}))]))}}
+function defaultText(day,di,si){if(si===1){return ["Engineering Math","COA","Algorithms","Compiler Design","Databases","Mock Test","Weekly Review"][di]}if(si===2){return ["Digital Logic","Data Structures","Theory of Computation","Operating System","Computer Networks","Test Analysis","Weekly Review"][di]}if(si===3&&di===5)return "DSA Contests";if(si>=3&&di===6)return ["Planning","Revision","Weak Topics","Rest","Weekly Review","Rest"][si-3]||DEFAULT_TASKS[si][0];return DEFAULT_TASKS[si][0]}
+function migrateOld(old){
+ const t=freshTemplate();
+ if(old&&old.template&&Array.isArray(old.template.slots)&&old.template.days){
+   t.slots=old.template.slots.slice(0,10).map((s,i)=>({start:s.start||DEFAULT_SLOTS[i][0],end:s.end||DEFAULT_SLOTS[i][1]}));
+   WEEKDAYS.forEach(day=>{t.days[day]=(old.template.days[day]||t.days[day]).slice(0,10).map((x,i)=>({text:x?.text??t.days[day][i].text,color:x?.color||t.days[day][i].color}));});
+   return t;
+ }
+ if(old&&Array.isArray(old.blocks)){
+   const weekDate=old.blocks.find(b=>b.date)?.date;
+   const base=weekDate?monday(fromISO(weekDate)):initialMonday;
+   const dateToDay={};for(let i=0;i<7;i++)dateToDay[iso(addDays(base,i))]=WEEKDAYS[i];
+   old.blocks.forEach(b=>{const day=dateToDay[b.date];if(!day)return;let idx=DEFAULT_SLOTS.findIndex(s=>s[0]===b.start);if(idx<0){idx=Math.max(0,Math.min(9,old.blocks.filter(x=>x.date===b.date).findIndex(x=>x.id===b.id)));}if(idx>=0&&idx<10)t.days[day][idx]={text:b.text||"Untitled Task",color:b.color||t.days[day][idx].color};});
+ }
+ return t;
+}
+function makeState(old){
+ const template=migrateOld(old);const completion={};
+ if(old&&old.completion&&typeof old.completion==="object")Object.assign(completion,old.completion);
+ if(old&&Array.isArray(old.blocks)){
+   old.blocks.forEach(b=>{if(!b.done)return;const base=old.blocks.find(x=>x.date===b.date&&x.start===b.start);if(base)completion[b.date+"|"+b.start]=true;});
+ }
+ return {title:old?.title||"MY STUDY ROADMAP",subtitle:old?.subtitle||"Plan your day • track completion • manage your months • monitor your progress",template,completion,months:Array.isArray(old?.months)?old.months:realMonths()};
+}
+let raw=null;try{raw=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){raw=null}
+if(!raw){try{const legacy=JSON.parse(localStorage.getItem("studyRoadmap_v4")||"null");raw=legacy}catch(e){raw=null}}
+let state=makeState(raw);let weekStart=initialMonday,calDate=new Date(today.getFullYear(),today.getMonth(),1),editingId=null;
+function save(show=false){localStorage.setItem(KEY,JSON.stringify(state));if(show)toast("Saved ✓")}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>x.style.display="none",1000)}
+function taskFor(day,idx){return state.template.days[day][idx]||{text:"",color:"teal"}}
+function isDone(date,start){return !!state.completion[date+"|"+start]}
+function render(){document.getElementById("siteTitle").textContent=state.title;document.getElementById("siteSubtitle").textContent=state.subtitle;renderTable();renderMonths();renderCalendar();renderProgress();save()}
+function renderTable(){
+ const dates=Array.from({length:7},(_,i)=>addDays(weekStart,i));
+ document.getElementById("weekPicker").value=iso(weekStart);
+ let h="<thead><tr><th class='timeHead'>TIME</th>";
+ dates.forEach(d=>{const actual=iso(d)===iso(today);h+=`<th class='dayHead'>${DAYNAMES[d.getDay()].toUpperCase()}<span class='dateHead'>${d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})}${actual?" • TODAY":""}</span></th>`});
+ h+="</tr></thead><tbody>";
+ state.template.slots.forEach((slot,idx)=>{
+   const last=idx===state.template.slots.length-1;
+   h+=`<tr><td class='timeCell'><div class='timeEditor'><input class='slotTime' data-slot='${idx}' type='time' value='${slot.start}' title='Click to choose a time'></div>${last?"<span class='timeHint'>ends 2 AM</span>":""}</td>`;
+   dates.forEach(d=>{const date=iso(d),day=WEEKDAYS[idxDay(d)],task=taskFor(day,idx),done=isDone(date,slot.start);h+=`<td class='slot' data-color='${esc(task.color)}'><div class='task ${done?"done":""}' data-day='${day}' data-slot='${idx}' data-date='${date}' title='Double-click to check / uncheck'>${task.text?`<div class='taskText' contenteditable='true' spellcheck='false' data-day='${day}' data-slot='${idx}'>${esc(task.text)}</div>`:`<button class='addCell' data-day='${day}' data-slot='${idx}'>＋ Add task</button>`}</div></td>`});
+   h+="</tr>";
+ });
+ h+="</tbody>";document.getElementById("timetable").innerHTML=h;
+ bindTable();
+}
+function idxDay(d){return (d.getDay()+6)%7}
+function bindTable(){
+ document.querySelectorAll(".taskText").forEach(el=>el.addEventListener("blur",()=>{const day=el.dataset.day,idx=Number(el.dataset.slot),t=taskFor(day,idx);t.text=el.textContent.trim()||"Untitled Task";save(true);renderProgress()}));
+ document.querySelectorAll(".task").forEach(el=>el.addEventListener("dblclick",e=>{if(e.target.closest(".taskText")&&document.activeElement===e.target)return;const day=el.dataset.day,idx=Number(el.dataset.slot),start=state.template.slots[idx].start,date=el.dataset.date;const key=date+"|"+start;state.completion[key]=!state.completion[key];save(true);renderTable();renderProgress();}));
+ document.querySelectorAll(".addCell").forEach(el=>el.addEventListener("click",()=>{editingId=null;document.getElementById("modalTitle").textContent="Add Task To Weekly Format";document.getElementById("fDate").value=el.closest(".task").dataset.date;document.getElementById("fStart").value=state.template.slots[Number(el.dataset.slot)].start;document.getElementById("fEnd").value=state.template.slots[Number(el.dataset.slot)].end;document.getElementById("fText").value="";document.getElementById("fColor").value="teal";document.getElementById("deleteBlock").classList.add("hidden");document.getElementById("modalBack").classList.add("show")}));
+ document.querySelectorAll(".slotTime").forEach(el=>{
+  el.addEventListener("click",()=>{try{if(typeof el.showPicker==="function")el.showPicker()}catch(e){}});
+  el.addEventListener("change",()=>changeSlotTime(Number(el.dataset.slot),el.value));
+});
+}
+function absFrom6(t){let v=mins(t);return v<360?v+1440:v}
+function moveCompletionStart(oldStart,newStart){
+ const moved={};
+ Object.keys(state.completion||{}).forEach(k=>{if(k.endsWith("|"+oldStart)){moved[k.slice(0,-(oldStart.length))+newStart]=state.completion[k];delete state.completion[k]}});
+ Object.assign(state.completion,moved);
+}
+function validTimeOrder(){
+ const s=state.template.slots;if(!s.length)return false;
+ let previous=360;
+ for(let i=0;i<s.length;i++){
+  const st=absFrom6(s[i].start),en=absFrom6(s[i].end);
+  if(i===0&&st!==360)return false;
+  if(st!==previous||en<=st)return false;
+  previous=en;
+ }
+ return previous===1560;
+}
+function changeSlotTime(idx,val){
+ const s=state.template.slots;if(!val||idx<0||idx>=s.length){renderTable();return}
+ const old=s[idx].start,newAbs=absFrom6(val);
+ if(idx===0){
+  const next=s[0].end,nextAbs=absFrom6(next);
+  if(newAbs<360||newAbs>=nextAbs){renderTable();toast("The first time must be 6:00 AM or later and before the next time");return}
+  s[0].start=val;
+  moveCompletionStart(old,val);
+ }else{
+  const prev=s[idx-1],cur=s[idx],prevStart=absFrom6(prev.start),curEnd=absFrom6(cur.end);
+  if(newAbs<=prevStart||newAbs>=curEnd){renderTable();toast("Choose a time between the previous time and the next time");return}
+  prev.end=val;cur.start=val;
+  if(!validTimeOrder()){prev.end=old;cur.start=old;renderTable();toast("Times must stay in order from 6:00 AM to 2:00 AM");return}
+  moveCompletionStart(old,val);
+ }
+ save(true);renderTable();renderProgress();
+}
+function openTimeBlockModal(){
+ const select=document.getElementById("splitSlot");
+ select.innerHTML=state.template.slots.map((s,i)=>`<option value="${i}">${fmt(s.start)} – ${fmt(s.end)}</option>`).join("");
+ updateSplitTime();document.getElementById("timeBlockBack").classList.add("show");
+}
+function updateSplitTime(){
+ const idx=Number(document.getElementById("splitSlot").value||0),s=state.template.slots[idx];if(!s)return;
+ const mid=Math.floor((absFrom6(s.start)+absFrom6(s.end))/2),v=mid%1440;
+ document.getElementById("splitTime").value=pad(Math.floor(v/60))+":"+pad(v%60);
+ document.getElementById("splitHint").textContent=`Split ${fmt(s.start)} – ${fmt(s.end)} at a new time. The first block keeps its tasks; the new block starts blank.`;
+}
+function addTimeBlock(){
+ const idx=Number(document.getElementById("splitSlot").value),s=state.template.slots[idx],split=document.getElementById("splitTime").value;
+ if(!s||!split)return;
+ const v=absFrom6(split);
+ if(v<=absFrom6(s.start)||v>=absFrom6(s.end)){toast("Choose a time inside the selected block");return}
+ const oldEnd=s.end;s.end=split;
+ state.template.slots.splice(idx+1,0,{start:split,end:oldEnd});
+ WEEKDAYS.forEach(day=>state.template.days[day].splice(idx+1,0,{text:"",color:"teal"}));
+ save(true);document.getElementById("timeBlockBack").classList.remove("show");render();toast("Time block added ✓");
+}
+function openDeleteTimeModal(){
+ if(state.template.slots.length<=1){toast("You need at least one time block");return}
+ const select=document.getElementById("deleteSlot");
+ select.innerHTML=state.template.slots.map((s,i)=>`<option value="${i}">${i+1}. ${fmt(s.start)} – ${fmt(s.end)}</option>`).join("");
+ document.getElementById("deleteTimeBack").classList.add("show");
+}
+function deleteTimeBlock(){
+ if(state.template.slots.length<=1){toast("You need at least one time block");return}
+ const idx=Number(document.getElementById("deleteSlot").value);
+ if(!Number.isInteger(idx)||idx<0||idx>=state.template.slots.length){toast("Choose a valid time block");return}
+ const slot=state.template.slots[idx];
+ if(!confirm(`Delete ${fmt(slot.start)} – ${fmt(slot.end)}? This removes that task row from the shared weekly format.`))return;
+ const deletedStart=slot.start;
+ state.template.slots.splice(idx,1);
+ WEEKDAYS.forEach(day=>state.template.days[day].splice(idx,1));
+ if(idx===0)state.template.slots[0].start="06:00";
+ if(idx===state.template.slots.length)state.template.slots[idx-1].end="02:00";
+ else if(idx>0)state.template.slots[idx-1].end=state.template.slots[idx].start;
+ Object.keys(state.completion||{}).forEach(k=>{if(k.endsWith("|"+deletedStart))delete state.completion[k]});
+ save(true);document.getElementById("deleteTimeBack").classList.remove("show");render();toast("Time block deleted ✓");
+}
+function renderMonths(){document.getElementById("monthGrid").innerHTML=state.months.map(m=>`<article class='month'><input class='monthTitle' value='${esc(m.name)}' data-mname='${m.id}'><div class='monthDate'>Customizable monthly roadmap</div><textarea data-mnotes='${m.id}'>${esc(m.notes)}</textarea><div class='toolbar'><button class='action' data-mdel='${m.id}'>Delete Month</button></div></article>`).join("");document.querySelectorAll("[data-mname]").forEach(x=>x.addEventListener("input",()=>{const m=state.months.find(v=>v.id===x.dataset.mname);if(m){m.name=x.value;save()}}));document.querySelectorAll("[data-mnotes]").forEach(x=>x.addEventListener("input",()=>{const m=state.months.find(v=>v.id===x.dataset.mnotes);if(m){m.notes=x.value;save()}}));document.querySelectorAll("[data-mdel]").forEach(x=>x.addEventListener("click",()=>{if(confirm("Delete this month?")){state.months=state.months.filter(m=>m.id!==x.dataset.mdel);save();renderMonths()}}))}
+function renderCalendar(){const y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0);document.getElementById("calTitle").textContent=calDate.toLocaleString("en-US",{month:"long",year:"numeric"});let h=DAYNAMES.map(x=>`<div class='calHead'>${x}</div>`).join("");for(let i=0;i<first.getDay();i++)h+="<div></div>";for(let d=1;d<=last.getDate();d++){const dt=new Date(y,m,d),id=iso(dt),day=WEEKDAYS[(dt.getDay()+6)%7],tasks=state.template.days[day]||[],completed=tasks.map((t,i)=>isDone(id,state.template.slots[i].start)?"✓ "+t.text:t.text).filter(Boolean).slice(0,3).join(" • "),isToday=id===iso(today),selected=id===iso(calDate);h+=`<div class='calDay ${isToday?"today ":""}${selected?"selected":""}' data-date='${id}'><span class='num'>${d}</span><small>${esc(completed||"No tasks")}</small></div>`}document.getElementById("calendarGrid").innerHTML=h;document.querySelectorAll(".calDay").forEach(el=>el.addEventListener("click",()=>{weekStart=monday(fromISO(el.dataset.date));document.querySelector('[data-tab="week"]').click();renderTable()}))}
+function renderProgress(){const days=Array.from({length:7},(_,i)=>WEEKDAYS[i]);const weeks=8;let total=0,done=0;for(let w=0;w<weeks;w++){const base=addDays(initialMonday,w*7);days.forEach((day,di)=>state.template.days[day].forEach((t,i)=>{if(!t.text)return;const date=iso(addDays(base,di)),start=state.template.slots[i].start;total++;if(isDone(date,start))done++}))}const p=total?Math.round(done/total*100):0;document.getElementById("totalTasks").textContent=total;document.getElementById("doneTasks").textContent=done;document.getElementById("remainingTasks").textContent=total-done;document.getElementById("percent").textContent=p+"%";document.getElementById("overallFill").style.width=p+"%";const map={};WEEKDAYS.forEach(day=>state.template.days[day].forEach(t=>{const k=t.text.trim()||"Untitled";if(!map[k])map[k]=[0,0];map[k][0]+=1;if(Object.keys(state.completion).some(k2=>k2.endsWith("|"+state.template.slots[state.template.days[day].indexOf(t)].start)&&state.completion[k2]))map[k][1]+=1}));document.getElementById("subjects").innerHTML=Object.entries(map).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>{const q=Math.round(v[1]/Math.max(1,v[0])*100);return `<div class='subject'><b>${esc(k)}</b><br><span class='note'>${v[1]} completed checks</span><div class='mini'><i style='width:${Math.min(100,q)}%'></i></div></div>`}).join("")}
+function resetTemplate(){if(confirm("Reset the weekly timetable format to the default 6 AM–2 AM sample? This changes the shared format for all weeks.")){state.template=freshTemplate();state.completion={};save();render();toast("Weekly format reset ✓")}}
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.getElementById(btn.dataset.tab).classList.add("active")}));
+document.getElementById("siteTitle").addEventListener("blur",()=>{state.title=document.getElementById("siteTitle").textContent.trim()||"MY STUDY ROADMAP";save(true)});document.getElementById("siteSubtitle").addEventListener("blur",()=>{state.subtitle=document.getElementById("siteSubtitle").textContent.trim();save(true)});
+document.getElementById("prevWeek").onclick=()=>{weekStart=addDays(weekStart,-7);renderTable()};document.getElementById("nextWeek").onclick=()=>{weekStart=addDays(weekStart,7);renderTable()};document.getElementById("todayWeek").onclick=()=>{weekStart=monday(new Date());renderTable()};document.getElementById("weekPicker").onchange=e=>{if(e.target.value){weekStart=monday(fromISO(e.target.value));renderTable()}};
+document.getElementById("resetBtn").onclick=resetTemplate;
+document.getElementById("addBtn").onclick=openTimeBlockModal;
+document.getElementById("deleteTimeBtn").onclick=openDeleteTimeModal;
+document.getElementById("splitSlot").addEventListener("change",updateSplitTime);
+document.getElementById("cancelTimeBlock").onclick=()=>document.getElementById("timeBlockBack").classList.remove("show");
+document.getElementById("timeBlockBack").onclick=e=>{if(e.target.id==="timeBlockBack")document.getElementById("timeBlockBack").classList.remove("show")};
+document.getElementById("timeBlockForm").onsubmit=e=>{e.preventDefault();addTimeBlock()};
+document.getElementById("cancelDeleteTime").onclick=()=>document.getElementById("deleteTimeBack").classList.remove("show");
+document.getElementById("deleteTimeBack").onclick=e=>{if(e.target.id==="deleteTimeBack")document.getElementById("deleteTimeBack").classList.remove("show")};
+document.getElementById("deleteTimeForm").onsubmit=e=>{e.preventDefault();deleteTimeBlock()};
+document.getElementById("cancelModal").onclick=()=>document.getElementById("modalBack").classList.remove("show");document.getElementById("modalBack").onclick=e=>{if(e.target.id==="modalBack")document.getElementById("modalBack").classList.remove("show")};
+document.getElementById("blockForm").onsubmit=e=>{e.preventDefault();const text=document.getElementById("fText").value.trim(),color=document.getElementById("fColor").value,start=document.getElementById("fStart").value,end=document.getElementById("fEnd").value;if(!text||!start||!end||start===end){alert("Please enter valid task and time values.");return}const slot=state.template.slots.findIndex(s=>s.start===start);const day=WEEKDAYS[idxDay(fromISO(document.getElementById("fDate").value))];if(slot>=0){state.template.days[day][slot]={text,color}}else{alert("Use Add Time Block to change the timetable intervals. Then add the task to that interval.");return}save();document.getElementById("modalBack").classList.remove("show");render();toast("Saved ✓")};
+document.getElementById("addMonth").onclick=()=>{const d=new Date(today.getFullYear(),today.getMonth()+state.months.length,1);state.months.push({id:uid(),name:d.toLocaleString("en-US",{month:"long",year:"numeric"}),notes:"Goals:\n\nTopics:\n\nMilestones:\n"});save();renderMonths()};document.getElementById("prevMonth").onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()};document.getElementById("nextMonth").onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()};document.getElementById("todayCal").onclick=()=>{calDate=new Date(today.getFullYear(),today.getMonth(),today.getDate());renderCalendar()};
+document.getElementById("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="study-roadmap-backup.json";a.click();URL.revokeObjectURL(a.href)};document.getElementById("importBtn").onclick=()=>document.getElementById("fileInput").click();document.getElementById("fileInput").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);state=makeState(x);save();render();toast("Imported ✓")}catch(err){alert("Invalid roadmap backup.")}};r.readAsText(f);e.target.value=""};document.getElementById("clearBtn").onclick=()=>{if(confirm("Clear ALL roadmap data?")){state={title:"MY STUDY ROADMAP",subtitle:"Plan your day • track completion • manage your months • monitor your progress",template:freshTemplate(),completion:{},months:[]};save();render()}};
+render();
+</script>
+</body>
+</html>
