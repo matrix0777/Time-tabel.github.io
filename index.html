@@ -143,7 +143,7 @@ function renderTable(){
 }
 function idxDay(d){return (d.getDay()+6)%7}
 function bindTable(){
- document.querySelectorAll(".taskText").forEach(el=>el.addEventListener("blur",()=>{const day=el.dataset.day,idx=Number(el.dataset.slot),t=taskFor(day,idx);t.text=el.textContent.trim()||"Untitled Task";save(true);renderProgress()}));
+ document.querySelectorAll(".taskText").forEach(el=>el.addEventListener("blur",()=>{const day=el.dataset.day,idx=Number(el.dataset.slot),t=state.template.days[day][idx];if(!t)return;t.text=el.textContent.trim()||"Untitled Task";t.color=stableColor(t.text,t.color);save(true);renderTable();renderProgress()}));
  document.querySelectorAll(".task").forEach(el=>el.addEventListener("dblclick",e=>{if(e.target.closest(".taskText")&&document.activeElement===e.target)return;const day=el.dataset.day,idx=Number(el.dataset.slot),start=state.template.slots[idx].start,date=el.dataset.date;const key=date+"|"+start;state.completion[key]=!state.completion[key];save(true);renderTable();renderProgress();}));
  document.querySelectorAll(".addCell").forEach(el=>el.addEventListener("click",()=>{editingId=null;document.getElementById("modalTitle").textContent="Add Task To Weekly Format";document.getElementById("fDate").value=el.closest(".task").dataset.date;document.getElementById("fStart").value=state.template.slots[Number(el.dataset.slot)].start;document.getElementById("fEnd").value=state.template.slots[Number(el.dataset.slot)].end;document.getElementById("fText").value="";document.getElementById("fColor").value="teal";document.getElementById("deleteBlock").classList.add("hidden");document.getElementById("modalBack").classList.add("show")}));
  document.querySelectorAll(".slotTime").forEach(el=>{
